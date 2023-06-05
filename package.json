@@ -1,6 +1,6 @@
 {
   "name": "guidescript",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An easy usage for LLM's GuideScript",
   "private": false,
   "keywords": [],
