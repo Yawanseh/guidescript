@@ -19,3 +19,4 @@ export function guidance(input: string) {
   // Return the output array
   return output;
 }
+
