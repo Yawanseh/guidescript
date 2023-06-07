@@ -1,5 +1,9 @@
 
-# GuideScript
+<div align="center"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/guidescript_logo_dark.svg">
+  <img alt="guidance" src="docs/assets/guidescript_logo.svg" width="300">
+</picture></div>
+<br/>
 
 GuideScript is a JavaScript/TypeScript library that brings the concept of [Guidance](https://github.com/microsoft/guidance) to your applications. Inspired by Microsoft's [Guidance](https://github.com/microsoft/guidance) package, GuideScript allows you to control language models more effectively and efficiently, but now in a JavaScript or TypeScript environment.
 
