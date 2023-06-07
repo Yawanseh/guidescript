@@ -1,15 +1,13 @@
 name: Publish
 on:
-  workflow_run:
-    workflows: [CI]
-    branches: [main]
-    types: [completed]
+  push:
+    branches:
+      - "main"
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   publish:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
