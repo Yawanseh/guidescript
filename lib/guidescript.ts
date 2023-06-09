@@ -1,29 +1,10 @@
-import { z } from "zod";
 import { defaultModel } from "./constants";
 import { getCompletion } from "./utils/openai";
-
-const GuideScriptSchema = z.object({
-  OpenAIKey: z.string(),
-  model: z
-    .string()
-    .optional()
-    .refine(
-      (value) => {
-        return value === "gpt-4" || value === "gpt-3.5-turbo";
-      },
-      {
-        message:
-          "Invalid model value. Available options are 'gpt-4' and 'gpt-3.5-turbo'.",
-        path: ["model"],
-      }
-    ),
-});
-
-type GuideScriptType = z.infer<typeof GuideScriptSchema>;
+import { Chat, ExportedData, GuideScriptSchema, GuideScriptType, Message, Model } from "./types";
 
 class GuideScript implements GuideScriptType {
   OpenAIKey: string;
-  model?: string;
+  model: Model;
 
   constructor(OpenAIKey: string | null = null, model = defaultModel) {
     const validatedData = GuideScriptSchema.parse({
@@ -35,27 +16,27 @@ class GuideScript implements GuideScriptType {
     this.model = validatedData.model;
   }
 
-  async chat(messages: any) {
-    console.time("chat");
-
-    let messageFlow = [] as any;
-    let messageDetails = {} as any;
+  async chat(messages: Message[]): Promise<Chat> {
+    let conversation: Message[] = [];
+    let exportedData: ExportedData = {};
 
     for (const message of messages) {
       if (message.role === "assistant" && message.content.startsWith("#GEN")) {
-        const { keyword, temperature, maxTokens } = JSON.parse(
+        const { keyword, temperature, maxTokens, options, stop } = JSON.parse(
           message?.content?.substring(4)
-        )[0];
+        );
 
-        await getCompletion(
-          this.OpenAIKey,
-          messageFlow,
-          this.model || defaultModel,
-          temperature,
-          maxTokens
-        ).then((response) => {
-          messageDetails[keyword] = response;
-          messageFlow.push({
+        await getCompletion({
+          key: this.OpenAIKey,
+          messages: conversation,
+          model: this.model,
+          temperature: temperature,
+          maxTokens: maxTokens,
+          options: options,
+          stop,
+        }).then((response) => {
+          exportedData[keyword] = response;
+          conversation.push({
             role: "assistant",
             content: response,
           });
@@ -64,10 +45,10 @@ class GuideScript implements GuideScriptType {
         continue;
       }
 
-      messageFlow.push(message);
+      conversation.push(message);
     }
 
-    return { messageFlow, messageDetails };
+    return { conversation, exportedData };
   }
 }
 

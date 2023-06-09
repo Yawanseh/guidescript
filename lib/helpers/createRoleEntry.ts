@@ -1,3 +1,5 @@
+import { Role } from "../types";
+
 /**
  * This function is used to create a role entry.
  * @param role The role for the entry
@@ -6,7 +8,7 @@
  * @returns role entry
  */
 const createRoleEntry =
-  (role: string) =>
+  (role: Role) =>
   (strings: TemplateStringsArray, ...values: string[]) => {
     const compiledText = strings
       .map((str, i) => str + (values[i] || ""))
