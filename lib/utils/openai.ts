@@ -1,24 +1,37 @@
 import { Configuration, OpenAIApi } from "openai";
-import { defaultModel } from "../constants";
+import tokenize from "./tiktoken";
+import { CompletionInputs } from "../types";
+import { CompletionInputsSchema } from "../types";
 
 export const getCompletion = async (
-  key: string,
-  messages: any,
-  model: string,
-  temperature: string,
-  maxTokens: string
-) => {
+  completionInputs: CompletionInputs
+): Promise<string> => {
   try {
+    const validCompletionInputs =
+      CompletionInputsSchema.parse(completionInputs);
+
+    const { key, maxTokens, messages, model, options, stop, temperature } =
+      validCompletionInputs;
+
     const configuration = new Configuration({
       apiKey: key,
     });
     const openai = new OpenAIApi(configuration);
 
+    let logitBias = {};
+
+    if (options?.length) {
+      logitBias = await tokenize(options, model);
+      stop.push("-");
+    }
+
     const completion = await openai.createChatCompletion({
       messages: messages,
-      model: model || defaultModel,
-      temperature: Number(temperature),
-      max_tokens: Number(maxTokens),
+      model: model,
+      temperature: temperature,
+      max_tokens: maxTokens,
+      logit_bias: logitBias,
+      stop: stop.length ? stop : "",
     });
 
     return completion?.data?.choices[0]?.message?.content.trim() || "";

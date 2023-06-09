@@ -5,6 +5,9 @@
 </picture></div>
 <br/>
 
+> This package is an early alpha version and is undergoing frequent updates
+
+
 GuideScript is a JavaScript/TypeScript library that brings the concept of [Guidance](https://github.com/microsoft/guidance) to your applications. Inspired by Microsoft's [Guidance](https://github.com/microsoft/guidance) package, GuideScript allows you to control language models more effectively and efficiently, but now in a JavaScript or TypeScript environment.
 
 ## Features
@@ -25,7 +28,7 @@ npm install guidescript
 Here's a basic example of how to use GuideScript to structure a chat with the language model.
 
 ```javascript
-import GuideScript, { assistant, generate, system, user } from "../index";
+import GuideScript, { assistant, generate, system, user } from "guidescript";
 
 // Initialize GuideScript with your OpenAI API Key and desired model
 const guidescript = new GuideScript("OPENAI_API_KEY", "gpt-3.5-turbo");
