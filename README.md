@@ -25,9 +25,10 @@ npm install guidescript
 
 ## Example Usage
 
+### Chat
 Here's a basic example of how to use GuideScript to structure a chat with the language model.
 
-```javascript
+```typescript
 import GuideScript, { assistant, generate, system, user } from "guidescript";
 
 // Initialize GuideScript with your OpenAI API Key and desired model
@@ -50,6 +51,26 @@ const chatFlow = [
 // Execute the chat and log the response
 guidescript.chat(chatFlow).then(response => console.log(response));
 ```
-
 In this example, we define a question, structure a chat around this question, and use the chat method to execute this chat with the language model.
 
+### Select
+
+```typescript
+import GuideScript, { assistant, select, user, type Chat } from "guidescript";
+
+// Initialize GuideScript with your OpenAI API Key and desired model
+const guidescript = new GuideScript("OPENAI_API_KEY", "gpt-3.5-turbo");
+
+const query: string = "I hate tacos";
+
+guidescript
+  .chat([
+    user`Is the following sentence offensive? Please answer with a single word, either "Yes", "No", or "Maybe".
+    Sentence: ${query}`,
+    assistant`${select("answer", {
+      options: ["Yes", "No", "Maybe"],
+    })}`,
+  ])
+  .then((response: Chat) => console.log(response));
+```
+In this example, the `answer` will be restricted to one of the provided options, regardless of whether or not the question anticipates any of these option responses.
