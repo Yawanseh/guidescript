@@ -1,12 +1,17 @@
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/guidescript_logo_dark.svg">
+    <img alt="guidance" src="docs/assets/guidescript_logo.svg" width="300">
+  </picture>
+  <br />
+  
+  [![Ceasefire Now](https://badge.techforpalestine.org/default)](https://techforpalestine.org/learn-more)
 
-<div align="center"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/guidescript_logo_dark.svg">
-  <img alt="guidance" src="docs/assets/guidescript_logo.svg" width="300">
-</picture></div>
-<br/>
+</div>
+
+<br />
 
 > This package is an early alpha version and is undergoing frequent updates
-
 
 GuideScript is a JavaScript/TypeScript library that brings the concept of [Guidance](https://github.com/microsoft/guidance) to your applications. Inspired by Microsoft's [Guidance](https://github.com/microsoft/guidance) package, GuideScript allows you to control language models more effectively and efficiently, but now in a JavaScript or TypeScript environment.
 
@@ -26,6 +31,7 @@ npm install guidescript
 ## Example Usage
 
 ### Chat
+
 Here's a basic example of how to use GuideScript to structure a chat with the language model.
 
 ```typescript
@@ -51,6 +57,7 @@ const chatFlow = [
 // Execute the chat and log the response
 guidescript.chat(chatFlow).then(response => console.log(response));
 ```
+
 In this example, we define a question, structure a chat around this question, and use the chat method to execute this chat with the language model.
 
 ### Select
@@ -73,4 +80,13 @@ guidescript
   ])
   .then((response: Chat) => console.log(response));
 ```
+
 In this example, the `answer` will be restricted to one of the provided options, regardless of whether or not the question anticipates any of these option responses.
+
+<br />
+<br />
+<div align="center">
+  
+[![ReadMeSupportPalestine](https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/banner-support.svg)](https://techforpalestine.org/learn-more)
+
+</div>
